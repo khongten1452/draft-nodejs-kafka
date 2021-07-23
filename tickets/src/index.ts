@@ -6,7 +6,7 @@ import { app } from './app';
 const { Kafka } = require('kafkajs')
 
 const kafka = new Kafka({
-  clientId: 'my-app',
+  clientId: 'my-app2',
   brokers: ['my-cluster-kafka-bootstrap.kafka:9092']
 })
 
@@ -24,8 +24,8 @@ const main = async() => {
   try {
     await consumer.connect()
     await consumer.subscribe({ topic: 'my-topic', fromBeginning: true })
-
     await consumer.run({
+      // autoCommit: false,
       // eachMessage: async ({ topic, partition, message }) => {
       eachMessage: async ( {topic, partition, message}:{topic: any, partition: any, message: any } ) => {
         console.log({
@@ -45,8 +45,11 @@ const main = async() => {
       console.log(err);
     }
 
+
+
+    
     app.listen(3000, () => {
-      console.log('Listening on port 3000!!!!!!!!');
+      console.log('Listening on porT 3000!!!!!!!!');
     });
 
 }

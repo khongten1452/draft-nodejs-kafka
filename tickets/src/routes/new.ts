@@ -1,9 +1,12 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@sgtickets/common';
+// import { requireAuth, validateRequest } from '@sgtickets/common';
 import { Ticket } from '../models/ticket';
 // import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
 // import { natsWrapper } from '../nats-wrapper';
+
+
+
 const { Kafka } = require('kafkajs')
 
 const kafka = new Kafka({
@@ -17,23 +20,23 @@ const router = express.Router();
 
 router.post(
   '/api/tickets',
-  requireAuth,
-  [
-    body('title').not().isEmpty().withMessage('Title is required'),
-    body('price')
-      .isFloat({ gt: 0 })
-      .withMessage('Price must be greater than 0'),
-  ],
-  validateRequest,
+  // requireAuth,
+  // [
+  //   body('title').not().isEmpty().withMessage('Title is required'),
+  //   body('price')
+  //     .isFloat({ gt: 0 })
+  //     .withMessage('Price must be greater than 0'),
+  // ],
+  // validateRequest,
   async (req: Request, res: Response) => {
-    const { title, price } = req.body;
+    // const { title, price } = req.body;
 
-    const ticket = Ticket.build({
-      title,
-      price,
-      userId: req.currentUser!.id,
-    });
-    await ticket.save();
+    // const ticket = Ticket.build({
+    //   title,
+    //   price,
+    //   userId: req.currentUser!.id,
+    // });
+    // await ticket.save();
 
     await producer.connect()
     await producer.send({
@@ -41,11 +44,11 @@ router.post(
       messages: [
         {
             value: 'msg from new.ts ',
-            id: ticket.id,
-            title: ticket.title,
-            price: ticket.price,
-            userId: ticket.userId,
-            version: ticket.version,
+            // id: ticket.id,
+            // title: ticket.title,
+            // price: ticket.price,
+            // userId: ticket.userId,
+            // version: ticket.version,
       },
       ],
     })
@@ -59,7 +62,8 @@ router.post(
     //   version: ticket.version,
     // });
 
-    res.status(201).send(ticket);
+    // res.status(201).send(ticket);
+    res.send("OK");
   }
 );
 
