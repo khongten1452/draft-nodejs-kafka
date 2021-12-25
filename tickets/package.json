@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
+    "start-local": "ts-node-dev src/index-local-nodejs-consumer.ts",
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
